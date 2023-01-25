@@ -1,0 +1,57 @@
+---
+image:
+  repository: postgres
+  tag: "15.1"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  annotations: {}
+  ## clusterIP:
+
+postgresql:
+  username: postgres
+  password: postgres
+  database: postgres
+  port: 5432
+  # initdbArgs 
+  # initdbWalDir
+  dataDir: /var/lib/postgresql/data/pgdata
+# extraEnv
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: false
+  mountPath: /var/lib/postgresql
+  subPath: ""
+  accessModes:  [ReadWriteOnce]
+  ## Storage Capacity for persistent volume
+  size: 500Mi
+  annotations: {}
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+
+## initdb scripts
+## Specify dictionary of scripts to be run at first boot
+## Alternatively, you can put your scripts under the files/docker-entrypoint-initdb.d directory
+##
+#resources: {}
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+initdbScripts:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS public.ips (ip varchar(20) not null);
+#, date date not null);

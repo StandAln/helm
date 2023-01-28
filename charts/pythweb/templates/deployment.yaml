@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-web
+spec:
+  selector:
+    matchLabels:
+      app: python-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: python-web
+    spec:
+      containers:
+      - name: pythweb
+        image: docker.io/standaln/pythweb:1.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80

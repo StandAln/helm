@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+    - host: "centos"
+      http: 
+        paths:
+        - pathType: Prefix
+          path: /
+          backend: 
+            service:
+              name: pythweb-service
+              port:
+                number: 80

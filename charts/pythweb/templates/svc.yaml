@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pythweb-service
+spec:
+  ports:
+    - port: 80
+      name: web
+  selector:
+    app: python-web 
+  type: ClusterIP
+#  clusterIP: 10.96.200.100

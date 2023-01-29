@@ -1,0 +1,28 @@
+---
+- name: Remove web-app and db  from k8s
+  hosts: localhost
+  gather_facts: no
+
+  
+  tasks:
+
+    - name: remove ingress-controller
+      shell:
+        cmd: kubectl delete all --all -n ingress-nginx
+
+    - name: Check installed charts 
+      shell:
+        cmd: helm list
+      register: helm_list
+      failed_when: false
+      changed_when: false
+
+    - name: remove python app
+      shell:
+        cmd: helm delete python
+      when: '"python" in helm_list.stdout'
+
+    - name: remove db app
+      shell:
+        cmd: helm delete postgres
+      when: '"postgres" in helm_list.stdout'

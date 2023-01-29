@@ -1,0 +1,44 @@
+---
+- name: Install web-app and db to k8s
+  hosts: localhost
+  gather_facts: no
+  become: yes
+  
+  tasks:
+
+    - name: Check helm 
+      shell:
+        cmd: helm version
+      register: helm_ver
+      failed_when: false
+      changed_when: false
+
+    - name: Install helm if not present
+      block:
+        - name: Download helm
+          get_url:
+            url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+            dest: /root
+        
+        - name: install helm
+          shell:
+            cmd: bash /root/get-helm-3
+          failed_when: false  
+      when: helm_ver.stderr | length > 0
+
+    - name: install ingres-controller
+      shell:
+        cmd: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml
+
+    - name: install postgres
+      shell:
+        cmd: helm install postgres postgres/     
+
+    - name: Pause for 30 sec to up ingress-controller
+      pause:
+        seconds: 30
+
+    - name: install python app
+      shell:
+        cmd: helm install python pythweb/
+

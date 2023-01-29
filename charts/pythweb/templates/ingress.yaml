@@ -3,8 +3,9 @@ kind: Ingress
 metadata:
   name: my-ingress
 spec:
+  ingressClassName: nginx
   rules:
-    - host: "centos"
+    - host: "app.com"
       http: 
         paths:
         - pathType: Prefix

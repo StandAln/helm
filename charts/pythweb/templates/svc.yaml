@@ -8,5 +8,6 @@ spec:
       name: web
   selector:
     app: python-web 
+#  externalTrafficPolicy: Local
   type: ClusterIP
 #  clusterIP: 10.96.200.100

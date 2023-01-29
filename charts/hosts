@@ -1,0 +1,2 @@
+[kmaster]
+centos ansible_host=192.168.0.153

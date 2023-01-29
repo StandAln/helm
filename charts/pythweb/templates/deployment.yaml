@@ -12,6 +12,7 @@ spec:
       labels:
         app: python-web
     spec:
+      hostNetwork: true 
       containers:
       - name: pythweb
         image: docker.io/standaln/pythweb:1.2
